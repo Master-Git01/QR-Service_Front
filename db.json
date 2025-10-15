@@ -1,0 +1,81 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "uuid": "8b1e9f10-0c4d-4f2a-9e81-1a2b3c4d5e6f",
+      "name": "Кафе «Утро»",
+      "phone": "+7 900 000-00-01",
+      "email": "owner@mycafe.example",
+      "password": "OwnerPass!23",
+      "passwordHash": "dev:sha256$bb7b7d053f27b2521eb79fdaab950a6df0574b39fe5497bbdc53c9a180758275",
+      "isVerified": true,
+      "role": "user",
+      "settings": {
+        "notifications": true,
+        "twoFA": true,
+        "locale": "ru"
+      },
+      "plan": "free",
+      "createdAt": "2025-02-14T16:01:58.855309Z",
+      "lastLogin": "2025-09-30T16:01:58.855309Z",
+      "deletedAt": null,
+      "devices": [
+        {
+          "id": "d1",
+          "name": "Chrome · Windows",
+          "lastSeen": "2025-09-30T16:01:58.855309Z",
+          "deviceId": "dev-abcdef"
+        }
+      ],
+      "meta": {
+        "companyId": 42
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "id": 1,
+      "token": "sess_abc123devtoken",
+      "userId": 1,
+      "type": "session",
+      "createdAt": "2025-09-30T16:01:58.855309Z",
+      "expiresAt": "2025-10-19T16:01:58.855309Z",
+      "revoked": false,
+      "meta": {
+        "ip": "37.140.10.5",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "deviceId": "dev-abcdef"
+      }
+    }
+  ],
+  "qrcodes": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "Меню — главный стол",
+      "slug": "cafemenu",
+      "target": "https://mycafe.menu",
+      "scansCount": 312,
+      "createdAt": "2025-02-14T16:01:58.855309Z",
+      "active": true,
+      "expiresAt": null,
+      "tags": ["menu", "main"],
+      "meta": {
+        "place": "Main hall",
+        "campaign": null
+      }
+    }
+  ],
+  "events": [
+    {
+      "id": "e1",
+      "qrId": 1,
+      "time": "2025-08-08T13:36:58.855309Z",
+      "device": "desktop",
+      "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+      "ip": "91.206.234.60",
+      "country": "US",
+      "ref": ""
+    }
+  ]
+}

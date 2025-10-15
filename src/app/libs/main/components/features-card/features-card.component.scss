@@ -1,0 +1,28 @@
+.features {
+  &-cards {
+    display: flex;
+    min-height: 100%;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &-card {
+    display: flex;
+    justify-content: center;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 6px 18px rgba(10, 16, 40, 0.06);
+    min-height: 150px;
+
+    mat-card-title {
+      color: #4b2cff;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    mat-card-content {
+      padding: 0 !important;
+    }
+  }
+}

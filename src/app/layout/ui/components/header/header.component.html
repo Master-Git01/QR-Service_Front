@@ -1,0 +1,42 @@
+<div class="topbar topbar--transparent">
+  <div class="topbar__inner container">
+    <div class="topbar__logo">
+      <span class="topbar__logo-title">QR-Сервис</span>
+    </div>
+
+    <div class="topbar__spacer" aria-hidden="true"></div>
+
+    <nav class="topbar__auth auth-links" aria-label="auth links">
+      <a mat-button class="auth-links__link" routerLink="/login">Войти</a>
+      <button
+        mat-raised-button
+        color="accent"
+        class="auth-links__btn auth-links__btn--register"
+        routerLink="/register"
+      >
+        Зарегистрироваться
+      </button>
+    </nav>
+  </div>
+</div>
+
+<section class="promo">
+  <div class="promo__inner container">
+    <h1 class="promo__title">Создавайте и управляйте QR-кодами легко</h1>
+    <p class="promo__sub">Бесплатно или с расширенной статистикой для вашего бизнеса</p>
+
+    <div class="promo__cta cta">
+      <button mat-stroked-button class="cta__btn cta__btn--free" (click)="onGenerateFree()">
+        Сгенерировать бесплатно
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="cta__btn cta__btn--create"
+        (click)="onCreateAccount()"
+      >
+        Создать и зарегистрироваться
+      </button>
+    </div>
+  </div>
+</section>

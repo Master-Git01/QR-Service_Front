@@ -1,0 +1,122 @@
+:host {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  color: #222;
+  box-sizing: border-box;
+}
+
+.topbar {
+  position: relative;
+  background: transparent;
+  box-shadow: none;
+  padding: 20px 0 20px 0;
+
+  &--transparent {
+    background: transparent;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+
+    &-title,
+    &__logo-title {
+      font-weight: 700;
+      color: #4b2cff;
+      font-size: 20px;
+    }
+  }
+
+  &__spacer {
+    flex: 1 1 auto;
+  }
+
+  &__auth,
+  .auth-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .auth-links {
+    &__link {
+      color: #333;
+      font-weight: 500;
+      text-transform: none;
+      margin-right: 12px;
+    }
+
+    &__btn {
+      border-radius: 16px;
+      text-transform: none;
+      font-size: 16px;
+
+      &--register {
+        padding: 22px 18px;
+        box-shadow: 0 6px 18px rgba(24, 0, 64, 0.25);
+        background-color: #4b2cff !important;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.promo {
+  background: linear-gradient(180deg, #6f4cff 0%, #9b3cff 45%, #b732e6 100%);
+  color: #fff;
+  padding: 76px 0 64px;
+  box-shadow: inset 0 -30px 40px rgba(0, 0, 0, 0.06);
+
+  &__inner {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 48px;
+  }
+
+  &__title {
+    margin: 0 auto 12px;
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-size: clamp(28px, 6.5vw, 64px);
+  }
+
+  &__sub {
+    margin: 0 auto 24px;
+    opacity: 0.95;
+    font-size: 16px;
+  }
+
+  &__cta {
+    display: inline-flex;
+    gap: 16px;
+    margin-top: 50px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.cta {
+  &__btn {
+    border-radius: 16px;
+    text-transform: none;
+    font-size: 16px;
+    padding: 25px;
+    min-height: 48px;
+  }
+
+  &__btn--free {
+    background: #fff;
+    color: #4b2cff;
+  }
+
+  &__btn--create {
+    box-shadow: 0 6px 18px rgba(24, 0, 64, 0.25);
+  }
+}
