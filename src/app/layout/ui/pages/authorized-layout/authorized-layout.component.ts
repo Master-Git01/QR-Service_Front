@@ -15,4 +15,3 @@ import { HeaderComponent } from '../../components/header/header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizedLayoutComponent {}
-

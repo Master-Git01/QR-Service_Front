@@ -12,4 +12,3 @@ import { FooterComponent } from '../../components/footer/footer.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnauthorizedLayoutComponent {}
-
