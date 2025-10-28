@@ -23,7 +23,13 @@ export const routes: Routes = [
   {
     path: MainPath.GUEST,
     component: UnauthorizedLayoutComponent,
-    children: [...layoutAgnosticComponents],
+    children: [
+      // {
+      //   path: MainPath.FREE_GENERATE,
+      //   component: loadComponent: () => import('./libs/free-qr-generate/pages/free-qr-generate.component').then((c) => c.FreeQrGenerateComponent),
+      // },
+      ...layoutAgnosticComponents,
+    ],
   },
   // {
   //   path: 'login',

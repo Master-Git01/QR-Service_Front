@@ -3,11 +3,12 @@ import { FeaturesCardComponent } from '../../components/features-card/features-c
 import { NgFor } from '@angular/common';
 import { FeaturesCardData } from '../../interfaces/materials-card.interface';
 import { featuresCardArray } from '../../configurations/features-card.configuration';
+import { PromoComponent } from '../../components/promo/promo.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [FeaturesCardComponent, NgFor],
+  imports: [FeaturesCardComponent, NgFor, PromoComponent],
 
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
