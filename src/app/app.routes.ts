@@ -24,10 +24,13 @@ export const routes: Routes = [
     path: MainPath.GUEST,
     component: UnauthorizedLayoutComponent,
     children: [
-      // {
-      //   path: MainPath.FREE_GENERATE,
-      //   component: loadComponent: () => import('./libs/free-qr-generate/pages/free-qr-generate.component').then((c) => c.FreeQrGenerateComponent),
-      // },
+      {
+        path: 'free-qr-generate',
+        loadComponent: () =>
+          import('./libs/free-qr-generate/pages/free-qr-generate/free-qr-generate.component').then(
+            (c) => c.FreeQrGenerateComponent,
+          ),
+      },
       ...layoutAgnosticComponents,
     ],
   },

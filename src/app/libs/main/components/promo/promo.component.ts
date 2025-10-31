@@ -1,23 +1,17 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { MainPath } from '../../../../core/enums/main-path.enum';
 
 @Component({
   selector: 'app-promo',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, RouterLink],
   templateUrl: './promo.component.html',
   styleUrl: './promo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromoComponent {
-  private router: Router = inject(Router);
+  
 
-  onGenerateFree(): void {
-    this.router.navigate(['/generate']);
-  }
-
-  onCreateAccount(): void {
-    this.router.navigate(['/register']);
-  }
 }
