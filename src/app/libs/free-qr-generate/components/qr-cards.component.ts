@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, ContentChild, ElementRef, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core'; // для mat-option
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { NgIf } from '@angular/common';
 
 export interface Tile {
   color: string;
@@ -27,13 +30,27 @@ export interface Tile {
     MatOptionModule,
     MatButtonModule,
     MatGridListModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    NgIf,
   ],
 })
 export class QrCardsComponent {
-  tiles: Tile[] = [
-    { text: 'One', cols: 3, rows: 1, color: 'lightblue' },
-    { text: 'Two', cols: 1, rows: 2, color: 'lightgreen' },
-    { text: 'Four', cols: 2, rows: 1, color: '#DDBDF1' },
-  ];
+  @ViewChild('qrInput') urlQr!: ElementRef;
+  @ViewChild('formatSelect') QrFormant!: MatSelect;
+  formats = ['PNG', 'SVG'];
+  previewUrl: string | null = null;
+  thirdCardText = [
+    'Для печати используйте SVG - он векторный и не теряет качество.',
+    'Если планируете менять ссылку часто - используйте динамический редирект на сервере.',
+    'В free-режиме статистика будет базовой; для детальной аналитики нужна регистрация и backend-хранилище.',
+  ]
+
+  onClearQr(): void {
+    this.urlQr.nativeElement.value = null;
+    this.QrFormant.value = null;
+    this.previewUrl = null;
+  }
 }
 

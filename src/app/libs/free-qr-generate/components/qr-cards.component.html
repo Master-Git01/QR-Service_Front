@@ -1,62 +1,50 @@
 <div class="grid-container">
+  <!-- Первая карточка -->
   <div class="first-card">
     <div class="first-card-logo">Быстрая генерация QR</div>
     <p class="first-card-text">
-      Введите ссылку - и мы создадим короткую ссылку и QR, который можно скачать и распечатать
+      Введите ссылку — и мы создадим короткую ссылку и QR, который можно скачать и распечатать
     </p>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Целевой URL</mat-label>
-      <input matInput placeholder="https://example.com/promo" />
-    </mat-form-field>
-  </div>
-
-  <div class="second-card">2</div>
-  <div class="third-card">3</div>
-</div>
-
-<!-- <div class="grid-container">
-
-  <mat-card class="card left">
-    <h2>Бесплатная генерация QR</h2>
-    <p class="w1">
-      Введите ссылку - мы создадим короткую ссылку и QR, который можно скачать и распечатать.
-    </p>
-    <mat-form-field appearance="outline" class="full-width" class="mat-inp">
-      <mat-label> Целевой URL </mat-label>
-      <input matInput placeholder="https://example.com/promo" />
+      <input #qrInput matInput placeholder="https://example.com/promo" />
       <mat-hint>Если не указать протокол — добавим https автоматически.</mat-hint>
     </mat-form-field>
-    Если не указать протокол — добавим https автоматически.
 
-    <mat-form-field appearance="outline" class="full-width" class="mat-inp">
-      <mat-label>Формат QR</mat-label>
-      <mat-select>
-        <mat-option value="png">PNG</mat-option>
-        <mat-option value="svg">SVG</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="qr-format">
+      <mat-form-field appearance="outline" class="qr-form">
+        <mat-label>Формат QR</mat-label>
+        <mat-select class="qr-form" #formatSelect>
+          @for (format of formats; track $index) {
+            <mat-option [value]="format">{{ format }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
 
-    <div class="buttons">
-      <button mat-flat-button color="primary">Сгенерировать</button>
-      <button mat-stroked-button>Очистить</button>
+      <button matButton="elevated" (click)="onClearQr()" class="qr-format-button" class="qr-clear">
+        Очистить
+      </button>
     </div>
-  </mat-card>
+  </div>
 
+  <div class="second-card">
+    <h3>Превью и загрузка</h3>
+    <div class="preview-card">
+      <ng-container *ngIf="previewUrl; else placeholder">
+        <img [src]="previewUrl" alt="QR Preview" />
+      </ng-container>
 
-  <mat-card class="card right">
-    <p>Превью появится здесь</p>
-  </mat-card>
+      <ng-template #placeholder>
+        <div class="placeholder-text">QR-превью появится здесь</div>
+      </ng-template>
+    </div>
+  </div>
 
-
-  <mat-card class="card bottom">
-    <h3>Быстрые советы</h3>
-    <ul>
-      <li>Для печати используйте SVG — он не теряет качество.</li>
-      <li>Если ссылка часто меняется — делайте редирект на сервере.</li>
-      <li>Без регистрации доступна базовая статистика.</li>
-    </ul>
-  </mat-card>
+  <div class="third-card">
+    @for (item of thirdCardText; track $index) {
+      <li>{{ item }}</li>
+    }
+  </div>
 </div>
- -->
 

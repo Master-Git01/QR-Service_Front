@@ -1,67 +1,9 @@
-// .grid-container {
-//   display: grid;
-//   grid-template-columns: 2fr 1.2fr;
-//   grid-template-rows: auto auto;
-//   gap: 24px;
-//   padding: 32px;
-// }
+mat-hint {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.6); 
+  
+}
 
-// .card {
-//   padding: 24px;
-//   border-radius: 16px;
-// }
-
-// .left {
-//   grid-column: 1;
-//   grid-row: 1;
-// }
-
-// .right {
-//   grid-column: 2;
-//   grid-row: 1;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   color: #888;
-// }
-
-// .bottom {
-//   grid-column: 1 / 3; /* растянуть на всю ширину */
-//   grid-row: 2;
-// }
-
-// .full-width {
-//   width: 100%;
-// }
-
-// .buttons {
-//   display: flex;
-//   gap: 12px;
-//   margin-top: 16px;
-// }
-
-// .w1 {
-//     padding: 10px;
-// }
-
-// .mat-inp{
-//     width: 300px;
-//     border-radius: 5px;
-//     padding-top: 15px;
-// }
-// mat-hint {
-//   font-size: 12px;
-//   color: rgba(0, 0, 0, 0.6); 
-// }
-
-// .url-inp{
-//     width: 500px;
-//     border-radius: 5px;
-// }
-
-// mat-grid-tile {
-//   background: lightblue;
-// }
 body {
   background: #f7f8fa;
   font-family: sans-serif;
@@ -77,9 +19,9 @@ body {
   margin: 72px auto;                   /* увеличенный внешний отступ */
   padding: 24px;                       /* чуть больше внутренний отступ */
   box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* добавляем плавный переход */
 }
-
-/* Карточки */
+/* Карточки с плавной анимацией */
 .grid-container > div {
   background: white;
   border-radius: 12px;
@@ -88,14 +30,23 @@ body {
   font-size: 20px;
   font-weight: 500;
   display: flex;
-  flex-direction: column;   /* элементы внутри идут вертикально */
-  justify-content: flex-start; /* текст сверху */
-  height: 100%;             /* карточка занимает всю высоту контейнера */
+  flex-direction: column;   
+  justify-content: flex-start; 
+  height: 100%;
+  
+  /* Плавный переход для transform и тени */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.grid-container > div:hover {
+  transform: translateY(-5px); /* лёгкое движение вверх */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* усиленная тень */
+}
+
 
 /* Нижняя карточка занимает две колонки */
 .third-card {
-  grid-column: 1 / 3; /* занимает обе колонки */
+  grid-column: 1 / 3; 
   margin-top: 30px;
 }
 
@@ -117,6 +68,85 @@ body {
     font-family: 'Arial', sans-serif;
     text-align: left;        
     margin: 0;                 
-    flex-grow: 1;             /* занимает всё свободное место карточки */
+    flex-grow: 1;      
+}
+
+.full-width{
+  margin-bottom: 245px;
+}
+.qr-format {
+  display: flex;
+  margin-top: -200px;
+}
+
+.qr-form {
+  width: 200px !important;
+}
+.qr-clear{
+  padding-left: 35px;
+  padding-bottom: 30px;
+}
+.preview-card {
+  width: 100%;
+  height: 260px;
+  border: 2px dashed #dcdcdc;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.preview-card .placeholder-text {
+  color: #b9bcc3;
+  font-size: 14px;
+}
+
+.third-card {
+  background-color: #ffffff; /* белый фон */
+  border-radius: 12px;       /* скругленные углы */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* мягкая тень */
+  padding: 20px 25px;        /* внутренние отступы */
+  max-width: 600px;           /* ограничение ширины */
+  margin: 20px auto;          /* центрирование */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.third-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* при наведении тень становится глубже */
+}
+
+.third-card ul {
+  list-style: none; /* убираем стандартные маркеры */
+  padding: 0;
+  margin: 0;
+}
+
+.third-card li {
+  position: relative;
+  padding-left: 25px; /* место для кастомного маркера */
+  margin-bottom: 15px;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #333;
+}
+
+.third-card li::before {
+  // content: '✔'; /* можно заменить на любой символ или иконку */
+  position: absolute;
+  left: 0;
+  color: #4CAF50; /* зеленый для галочки */
+  font-weight: bold;
 }
 
