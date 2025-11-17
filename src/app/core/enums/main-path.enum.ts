@@ -3,5 +3,5 @@ export enum MainPath {
   USERS = 'users',
   GUEST = 'guest',
   MAIN = 'main',
-  FREE_GENERATE = 'free-generate',
+  FREE_GENERATE = 'free-qr-generate',
 }
