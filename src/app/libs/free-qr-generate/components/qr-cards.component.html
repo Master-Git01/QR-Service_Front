@@ -1,0 +1,50 @@
+<div class="grid-container">
+  <!-- Первая карточка -->
+  <div class="first-card">
+    <div class="first-card-logo">Быстрая генерация QR</div>
+    <p class="first-card-text">
+      Введите ссылку — и мы создадим короткую ссылку и QR, который можно скачать и распечатать
+    </p>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Целевой URL</mat-label>
+      <input #qrInput matInput placeholder="https://example.com/promo" />
+      <mat-hint>Если не указать протокол — добавим https автоматически.</mat-hint>
+    </mat-form-field>
+
+    <div class="qr-format">
+      <mat-form-field appearance="outline" class="qr-form">
+        <mat-label>Формат QR</mat-label>
+        <mat-select class="qr-form" #formatSelect>
+          @for (format of formats; track $index) {
+            <mat-option [value]="format">{{ format }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button matButton="elevated" (click)="onClearQr()" class="qr-format-button" class="qr-clear">
+        Очистить
+      </button>
+    </div>
+  </div>
+
+  <div class="second-card">
+    <h3>Превью и загрузка</h3>
+    <div class="preview-card">
+      <ng-container *ngIf="previewUrl; else placeholder">
+        <img [src]="previewUrl" alt="QR Preview" />
+      </ng-container>
+
+      <ng-template #placeholder>
+        <div class="placeholder-text">QR-превью появится здесь</div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="third-card">
+    @for (item of thirdCardText; track $index) {
+      <li>{{ item }}</li>
+    }
+  </div>
+</div>
+

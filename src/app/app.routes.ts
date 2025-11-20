@@ -25,7 +25,7 @@ export const routes: Routes = [
     component: UnauthorizedLayoutComponent,
     children: [
       {
-        path: MainPath.FREE_GENERATE,
+        path: 'free-qr-generate',
         loadComponent: () =>
           import('./libs/free-qr-generate/pages/free-qr-generate/free-qr-generate.component').then(
             (c) => c.FreeQrGenerateComponent,

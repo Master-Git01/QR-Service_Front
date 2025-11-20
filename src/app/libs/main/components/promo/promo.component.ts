@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { MainPath } from '../../../../core/enums/main-path.enum';
 
 @Component({
   selector: 'app-promo',
@@ -10,4 +11,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './promo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PromoComponent {}
+export class PromoComponent {
+  
+
+}
