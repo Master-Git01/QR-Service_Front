@@ -1,0 +1,37 @@
+:host {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 930px;
+  margin: 0 auto;
+  min-height: 80vh;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.qr-generate {
+  &__container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  &__col {
+    flex: 0 0 48%;
+    min-width: 320px;
+  }
+
+  &__full {
+    flex-basis: 100%;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 920px) {
+  .qr-generate__col {
+    flex-basis: 100%;
+  }
+}

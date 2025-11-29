@@ -1,0 +1,26 @@
+<div class="qr-preview">
+  <h3 class="qr-preview__title">Превью и загрузка</h3>
+
+  <div class="qr-preview__card">
+    <ng-container *ngIf="qrUrl; else placeholder">
+      <div class="qr-preview__card-inner">
+        <img [src]="qrUrl" alt="QR Preview" class="qr-preview__card-img" />
+
+        <button
+          *ngIf="hasQr"
+          mat-icon-button
+          class="qr-preview__card-download-btn"
+          (click)="onDownloadClick()"
+          aria-label="Скачать QR"
+          matTooltip="Скачать"
+        >
+          <mat-icon>download</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-template #placeholder>
+      <div class="qr-preview__card-placeholder">QR-превью появится здесь</div>
+    </ng-template>
+  </div>
+</div>

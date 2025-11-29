@@ -9,7 +9,6 @@ import { PromoComponent } from '../../components/promo/promo.component';
   selector: 'app-main',
   standalone: true,
   imports: [FeaturesCardComponent, NgFor, PromoComponent],
-
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

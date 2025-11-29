@@ -1,3 +1,17 @@
-<app-qr-cards> </app-qr-cards>
+<section class="qr-generate__container">
+  <app-fast-qr-generation
+    class="qr-generate__col"
+    (generate)="generateQr($event)"
+    (clear)="clearAll()"
+    (urlChange)="onUrlChange($event)"
+  ></app-fast-qr-generation>
 
-<p>free-qr-generate works!</p>
+  <app-qr-preview
+    class="qr-generate__col"
+    [qrUrl]="qrDataUrl$$ | async"
+    [hasQr]="!!(downloadButton$$ | async)"
+    (download)="download()"
+  ></app-qr-preview>
+
+  <app-hints class="qr-generate__full"></app-hints>
+</section>

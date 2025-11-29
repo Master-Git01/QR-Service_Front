@@ -1,0 +1,51 @@
+<div class="fast-qr">
+  <div class="fast-qr__header">
+    <h2 class="fast-qr__title">Быстрая генерация QR</h2>
+    <p class="fast-qr__desc">Введите ссылку — получаете короткую ссылку и QR-код для печати</p>
+  </div>
+
+  <div class="fast-qr__body">
+    <mat-form-field floatLabel="always" appearance="outline" class="fast-qr__field full-width">
+      <mat-label class="fast-qr__label">Целевой URL</mat-label>
+
+      <input
+        matInput
+        placeholder="example.com"
+        class="fast-qr__input"
+        [formControl]="linkControl"
+        name="url"
+      />
+    </mat-form-field>
+
+    <div class="fast-qr__row">
+      <mat-form-field floatLabel="always" appearance="outline" class="qr-form">
+        <mat-label class="fast-qr__label">Формат QR</mat-label>
+
+        <mat-select [formControl]="formatControl" class="qr-form">
+          <mat-option *ngFor="let format of formats" [value]="format">
+            {{ format }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="fast-qr__buttons">
+        <button
+          mat-raised-button
+          class="fast-qr__generation"
+          type="button"
+          (click)="onGenerateClick()"
+          [disabled]="!linkControl.value || linkControl.value.trim() === ''"
+          [ngClass]="{
+            'fast-qr__generation--disabled': !linkControl.value || linkControl.value.trim() === '',
+          }"
+        >
+          Сгенерировать
+        </button>
+
+        <button mat-button class="fast-qr__clear" type="button" (click)="onClearClick()">
+          Очистить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

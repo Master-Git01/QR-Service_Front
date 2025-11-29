@@ -1,0 +1,30 @@
+.hints {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
+  padding: 18px;
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  &__item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  &__bullet {
+    color: #6b7280;
+    font-weight: 700;
+  }
+
+  &__text {
+    color: #374151;
+    font-size: 15px;
+  }
+}
