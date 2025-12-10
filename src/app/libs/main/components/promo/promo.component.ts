@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-promo',
   standalone: true,
-  imports: [MatButtonModule, RouterLink],
+  imports: [],
   templateUrl: './promo.component.html',
   styleUrl: './promo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

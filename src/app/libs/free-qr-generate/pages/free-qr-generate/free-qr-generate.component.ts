@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { QrGenerationService } from '../../services/qr-service.service';
 import { FastQrGenerationComponent } from '../../components/fast-qr-generation/fast-qr-generation.component';
 import { QrPreviewComponent } from '../../components/qr-preview/qr-preview.component';
@@ -13,6 +13,7 @@ import {
   tap,
 } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-free-qr-generate',
@@ -22,8 +23,9 @@ import { AsyncPipe } from '@angular/common';
   imports: [FastQrGenerationComponent, QrPreviewComponent, HintsComponent, AsyncPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FreeQrGenerateComponent implements OnDestroy, OnInit {
+export class FreeQrGenerateComponent implements OnInit {
   private qrService: QrGenerationService = inject(QrGenerationService);
+  private readonly destroyRef = inject(DestroyRef);
 
   private readonly url$ = new BehaviorSubject<string>('');
 
@@ -31,7 +33,7 @@ export class FreeQrGenerateComponent implements OnDestroy, OnInit {
   readonly qrDataUrl$$ = this.qrDataUrl$.asObservable();
 
   private readonly blob$ = new BehaviorSubject<Blob | null>(null);
-  readonly blob$$ = this.qrDataUrl$.asObservable();
+  readonly blob$$ = this.blob$.asObservable();
 
   private readonly downloadButton$ = new BehaviorSubject<boolean | null>(null);
   readonly downloadButton$$ = this.downloadButton$.asObservable();
@@ -59,6 +61,7 @@ export class FreeQrGenerateComponent implements OnDestroy, OnInit {
             }),
           );
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((dataUrl) => this.qrDataUrl$.next(dataUrl));
   }
@@ -85,6 +88,7 @@ export class FreeQrGenerateComponent implements OnDestroy, OnInit {
           this.downloadButton$.next(false);
           return of(null);
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }
@@ -95,12 +99,6 @@ export class FreeQrGenerateComponent implements OnDestroy, OnInit {
     if (this.qrDataUrl$.value) {
       URL.revokeObjectURL(this.qrDataUrl$.value);
       this.qrDataUrl$.next(null);
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.qrDataUrl$.value) {
-      URL.revokeObjectURL(this.qrDataUrl$.value);
     }
   }
 

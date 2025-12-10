@@ -8,13 +8,13 @@
 
         <button
           *ngIf="hasQr"
-          mat-icon-button
           class="qr-preview__card-download-btn"
+          type="button"
           (click)="onDownloadClick()"
           aria-label="Скачать QR"
-          matTooltip="Скачать"
+          title="Скачать"
         >
-          <mat-icon>download</mat-icon>
+          ⬇️ Скачать
         </button>
       </div>
     </ng-container>

@@ -9,10 +9,6 @@ import {
   DestroyRef,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export enum QrFormat {
@@ -23,15 +19,7 @@ export enum QrFormat {
 @Component({
   selector: 'app-fast-qr-generation',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    NgFor,
-    NgClass,
-  ],
+  imports: [ReactiveFormsModule, NgFor, NgClass],
   templateUrl: './fast-qr-generation.component.html',
   styleUrl: './fast-qr-generation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

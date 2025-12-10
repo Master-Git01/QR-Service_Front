@@ -26,10 +26,11 @@
     box-shadow: 0 6px 18px rgba(10, 16, 40, 0.06);
     min-height: 110px;
 
-    mat-card-title {
+    &__title {
       color: #4b2cff;
       font-weight: 700;
       margin-bottom: 6px;
+      margin: 0;
     }
   }
 }

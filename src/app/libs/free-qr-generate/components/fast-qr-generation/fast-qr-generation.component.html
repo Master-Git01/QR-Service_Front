@@ -5,32 +5,30 @@
   </div>
 
   <div class="fast-qr__body">
-    <mat-form-field floatLabel="always" appearance="outline" class="fast-qr__field full-width">
-      <mat-label class="fast-qr__label">Целевой URL</mat-label>
-
+    <div class="fast-qr__field">
+      <label for="url" class="fast-qr__label">Целевой URL</label>
       <input
-        matInput
+        id="url"
+        type="text"
         placeholder="example.com"
         class="fast-qr__input"
         [formControl]="linkControl"
         name="url"
       />
-    </mat-form-field>
+    </div>
 
     <div class="fast-qr__row">
-      <mat-form-field floatLabel="always" appearance="outline" class="qr-form">
-        <mat-label class="fast-qr__label">Формат QR</mat-label>
-
-        <mat-select [formControl]="formatControl" class="qr-form">
-          <mat-option *ngFor="let format of formats" [value]="format">
+      <div class="fast-qr__field">
+        <label for="format" class="fast-qr__label">Формат QR</label>
+        <select id="format" class="fast-qr__select" [formControl]="formatControl">
+          <option *ngFor="let format of formats" [value]="format">
             {{ format }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+          </option>
+        </select>
+      </div>
 
       <div class="fast-qr__buttons">
         <button
-          mat-raised-button
           class="fast-qr__generation"
           type="button"
           (click)="onGenerateClick()"
@@ -42,9 +40,7 @@
           Сгенерировать
         </button>
 
-        <button mat-button class="fast-qr__clear" type="button" (click)="onClearClick()">
-          Очистить
-        </button>
+        <button class="fast-qr__clear" type="button" (click)="onClearClick()">Очистить</button>
       </div>
     </div>
   </div>

@@ -39,18 +39,40 @@
     border-radius: 16px;
     text-transform: none;
     font-size: 16px;
-    padding: 16px;
+    padding: 16px 24px;
     min-height: 48px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    font-family: inherit;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(24, 0, 64, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
 
   &__btn--free {
     background: #fff;
     color: #6f4cff;
+
+    &:hover {
+      background: #f9f9f9;
+    }
   }
 
   &__btn--create {
     background: #4b2cff;
     color: #fff;
     box-shadow: 0 6px 18px rgba(24, 0, 64, 0.25);
+
+    &:hover {
+      background: #3d1fff;
+    }
   }
 }
