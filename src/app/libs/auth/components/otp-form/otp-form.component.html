@@ -1,0 +1,65 @@
+<div class="confirm">
+  <div class="confirm__wrap">
+    <header class="confirm__head">
+      <div class="confirm__title">Подтверждение номера</div>
+      <div class="confirm__hint">Введите код из SMS</div>
+    </header>
+
+    <main class="confirm__body">
+      <div class="confirm__card">
+        <h2 class="confirm__heading">Введите код</h2>
+        <p class="confirm__text">
+          Код отправлен на номер
+          <span class="confirm__phone" data-hook="phone-display">{{ phoneNumber }}</span>
+        </p>
+
+        <label class="confirm__label">
+          <span class="confirm__label-text">Код из SMS</span>
+          <input
+            [formControl]="inputField"
+            class="confirm__input"
+            type="number"
+            inputmode="numeric"
+            maxlength="6"
+            placeholder="123456"
+            data-hook="code-input"
+          />
+        </label>
+
+        <div class="confirm__actions">
+          <button
+            class="confirm__btn confirm__btn--primary"
+            data-hook="verify-btn"
+            [disabled]="inputField.invalid"
+            (click)="onSubmit()"
+          >
+            Подтвердить
+          </button>
+          <button
+            class="confirm__btn confirm__btn--ghost"
+            data-hook="edit-btn"
+            type="button"
+            (click)="onChangePhone()"
+          >
+            Изменить номер
+          </button>
+        </div>
+
+        <div class="confirm__resend">
+          <span class="confirm__resend-note">Не пришло SMS?</span>
+          <button
+            class="confirm__resend-btn"
+            data-hook="resend-btn"
+            type="button"
+            (click)="onResendNumber()"
+          >
+            Отправить снова
+          </button>
+          <span class="confirm__resend-timer" data-hook="resend-timer" aria-hidden="true"></span>
+        </div>
+
+        <p class="confirm__error" data-hook="error" role="alert" aria-live="polite" hidden></p>
+      </div>
+    </main>
+  </div>
+</div>

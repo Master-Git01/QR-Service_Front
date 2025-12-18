@@ -7,7 +7,14 @@
       <a href="/guest/free-qr-generate" class="cta__btn cta__btn--free">
         Сгенерировать бесплатно
       </a>
-      <button class="cta__btn cta__btn--create" type="button">Создать и зарегистрироваться</button>
+      <button
+        class="cta__btn cta__btn--create"
+        routerLink="/signup"
+        [queryParams]="{ mode: 'signup' }"
+        type="button"
+      >
+        Создать и зарегистрироваться
+      </button>
     </div>
   </div>
 </section>

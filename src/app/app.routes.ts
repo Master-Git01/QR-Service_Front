@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
 import { MainPath } from './core/enums/main-path.enum';
 import { authGuard } from './core/guards/auth.guard';
-import { AuthorizedLayoutComponent } from './layout/ui/pages/authorized-layout/authorized-layout.component';
-import { UnauthorizedLayoutComponent } from './layout/ui/pages/unauthorized-layout/unauthorized-layout.component';
+import { MainLayoutComponent } from './layout/ui/pages/main-layout/main-layout.component';
 
 const layoutAgnosticComponents = [
   {
@@ -16,30 +15,63 @@ const layoutAgnosticComponents = [
 export const routes: Routes = [
   {
     path: MainPath.ROOT,
-    component: AuthorizedLayoutComponent,
+    component: MainLayoutComponent,
     canActivate: [authGuard],
-    // children: [...все остальные компоненты],
+    children: [
+      {
+        path: 'auth',
+        children: [
+          {
+            path: 'generate-dinamic-qr',
+            loadComponent: () =>
+              import('./libs/qr-generate/pages/qr-generate/qr-generate.component').then(
+                (c) => c.QrGenerateComponent,
+              ),
+          },
+          {
+            path: 'profile',
+            loadComponent: () =>
+              import('./libs/profile/page/profile/profile.component').then(
+                (c) => c.ProfileComponent,
+              ),
+          },
+          {
+            path: '**',
+            redirectTo: 'generate-dinamic-qr',
+            pathMatch: 'full',
+          },
+        ],
+      },
+    ],
   },
   {
     path: MainPath.GUEST,
-    component: UnauthorizedLayoutComponent,
+    component: MainLayoutComponent,
     children: [
       {
         path: 'free-qr-generate',
         loadComponent: () =>
-          import('./libs/free-qr-generate/pages/free-qr-generate/free-qr-generate.component').then(
-            (c) => c.FreeQrGenerateComponent,
+          import('./libs/qr-generate/pages/qr-generate/qr-generate.component').then(
+            (c) => c.QrGenerateComponent,
           ),
       },
+
       ...layoutAgnosticComponents,
     ],
   },
-  // {
-  //   path: 'login',
-  //   loadComponent: () => import('').then((c) => c.LoginContainerComponent),
-  // },
-  // {
-  //   path: 'signup',
-  //   loadComponent: () => import('').then((c) => c.RegisterContainerComponent),
-  // },
+  {
+    path: 'onboard',
+    loadComponent: () =>
+      import('./libs/auth/pages/auth/auth.component').then((c) => c.AuthComponent),
+  },
+  {
+    path: 'login',
+    redirectTo: 'onboard',
+    pathMatch: 'full',
+  },
+  {
+    path: 'signup',
+    redirectTo: 'onboard',
+    pathMatch: 'full',
+  },
 ];

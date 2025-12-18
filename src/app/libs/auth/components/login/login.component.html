@@ -1,0 +1,47 @@
+<div class="login">
+  <div class="login__card">
+    <div class="login__head">
+      <div class="login__brand">Вход</div>
+      <div class="login__hint">Вход по SMS</div>
+    </div>
+
+    <div class="login__body">
+      <!-- STEP: phone -->
+      <section class="login__step login__step--phone" aria-hidden="false" data-step="phone">
+        <h2 class="login__title">Вход по номеру</h2>
+        <p class="login__desc">Введите номер — мы пришлём код для входа.</p>
+
+        <label class="login__label">
+          <span class="login__label-text">Номер телефона</span>
+          <input
+            [formControl]="inputField"
+            class="login__input"
+            type="tel"
+            placeholder="+7 900 000-00-00"
+            data-hook="phone-input"
+          />
+        </label>
+
+        <div class="login__actions">
+          <button
+            class="login__btn login__btn--primary"
+            [disabled]="inputField.invalid"
+            (click)="onSubmit()"
+          >
+            Получить код
+          </button>
+          <button class="login__btn login__btn--ghost" type="button" (click)="inputField.reset()">
+            Очистить
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="login__footer">
+    <span class="login__footer-text">Нет аккаунта?</span>
+    <a class="login__footer-link" [routerLink]="['/signup']" [queryParams]="{ mode: 'signup' }"
+      >Регистрация</a
+    >
+  </div>
+</div>

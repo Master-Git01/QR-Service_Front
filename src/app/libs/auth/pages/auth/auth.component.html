@@ -1,0 +1,21 @@
+<div class="auth">
+  <button class="home" aria-label="На главную" routerLink="/" (click)="goHome()">
+    ← На главную
+  </button>
+
+  <div class="auth__body">
+    <ng-container *ngIf="otpState$ | async as otp">
+      <app-otp-form
+        *ngIf="otp.state === 'waitingCode' || otp.state === 'verifying'"
+        [phoneNumber]="otp.phone"
+      ></app-otp-form>
+
+      <app-login
+        *ngIf="otp.state !== 'waitingCode' && mode === 'login' && otp.state !== 'verifying'"
+      ></app-login>
+      <app-register
+        *ngIf="otp.state !== 'waitingCode' && mode === 'signup' && otp.state !== 'verifying'"
+      ></app-register>
+    </ng-container>
+  </div>
+</div>

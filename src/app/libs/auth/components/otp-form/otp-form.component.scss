@@ -1,0 +1,208 @@
+/* confirm-code.component.scss — BEM, стили в стиле дашборда */
+.confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 2rem 1rem;
+  background: transparent;
+
+  &__wrap {
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(2, 6, 23, 0.06);
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 25px 15px 25px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  &__home {
+    color: #374151;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    transition:
+      background 0.12s ease,
+      color 0.12s ease;
+
+    &:hover {
+      background: rgba(79, 70, 229, 0.06);
+      color: #4f46e5;
+      text-decoration: none;
+    }
+  }
+
+  &__title {
+    color: #4f46e5;
+    font-weight: 700;
+    font-size: 1.125rem;
+  }
+
+  &__hint {
+    color: #6b7280;
+    font-size: 0.9rem;
+  }
+
+  &__body {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 6px 24px rgba(2, 6, 23, 0.06);
+    width: 100%;
+  }
+
+  &__heading {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  &__text {
+    margin: 0 0 1rem 0;
+    color: #6b7280;
+    font-size: 0.95rem;
+  }
+
+  &__phone {
+    font-weight: 700;
+    color: #374151;
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 1rem;
+
+    &-text {
+      display: block;
+      font-size: 0.9rem;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    max-width: 220px;
+    border-radius: 10px;
+    border: 1px solid #e6e9ef;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: #111827;
+    background: #fff;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 6px rgba(79, 70, 229, 0.06);
+      border-color: #4f46e5;
+    }
+
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    align-items: center;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    padding: 0.6rem 1.1rem;
+    transition:
+      background 0.12s ease,
+      box-shadow 0.12s ease;
+
+    &--primary {
+      background: #4f46e5;
+      color: #fff;
+      box-shadow: 0 6px 12px rgba(79, 70, 229, 0.12);
+
+      &:hover:not(:disabled) {
+        background: #4338ca;
+      }
+    }
+
+    &--ghost {
+      background: transparent;
+      color: #6b7280;
+      padding: 0.45rem 0.9rem;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+  }
+
+  &__resend {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    font-size: 0.95rem;
+  }
+
+  &__resend-btn {
+    border: none;
+    background: transparent;
+    color: #4f46e5;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+  }
+
+  &__resend-timer {
+    color: #374151;
+    font-weight: 600;
+  }
+
+  &__error {
+    margin-top: 0.75rem;
+    color: #dc2626;
+    font-size: 0 nine rem; /* typo-safe fallback handled by build, keep readable */
+  }
+}
+
+/* responsive */
+@media (max-width: 640px) {
+  .confirm__card {
+    padding: 1rem;
+  }
+  .confirm__input {
+    max-width: 100%;
+  }
+  .confirm__title {
+    font-size: 1rem;
+  }
+}
