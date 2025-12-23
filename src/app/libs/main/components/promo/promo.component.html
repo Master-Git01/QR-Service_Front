@@ -4,16 +4,11 @@
     <p class="promo__sub">Бесплатно или с расширенной статистикой для вашего бизнеса</p>
 
     <div class="promo__cta cta">
-      <a href="/guest/free-qr-generate" class="cta__btn cta__btn--free">
+      <a routerLink="/guest/free-qr-generate" class="cta__btn cta__btn--free">
         Сгенерировать бесплатно
       </a>
-      <button
-        class="cta__btn cta__btn--create"
-        routerLink="/signup"
-        [queryParams]="{ mode: 'signup' }"
-        type="button"
-      >
-        Создать и зарегистрироваться
+      <button class="cta__btn cta__btn--create" type="button" (click)="goToSignup()">
+        Авторизироваться и создать
       </button>
     </div>
   </div>

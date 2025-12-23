@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-otp-form',
@@ -11,21 +10,23 @@ import { AuthService } from '../../services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OtpFormComponent {
-  @Input() phoneNumber!: string | null;
+  @Output() submitCode = new EventEmitter<string>();
+  @Output() changePhone = new EventEmitter<void>();
+  @Output() resendOtp = new EventEmitter<void>();
 
-  private authService = inject(AuthService);
+  @Input() phoneNumber!: string | null | undefined;
 
-  public inputField = new FormControl('', [Validators.required, Validators.pattern(/^\d{1,8}$/)]);
+  readonly inputField = new FormControl('', [Validators.required, Validators.pattern(/^\d{1,8}$/)]);
 
   onSubmit(): void {
-    this.authService.verify(+this.inputField.value!);
+    this.submitCode.emit(this.inputField.value!);
   }
 
   onChangePhone(): void {
-    this.authService.resetOtpState();
+    this.changePhone.emit();
   }
 
-  onResendNumber(): void {
-    this.authService.sendCode();
+  onResendOtp(): void {
+    this.resendOtp.emit();
   }
 }

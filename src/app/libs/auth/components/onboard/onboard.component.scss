@@ -1,14 +1,12 @@
-/* login.component.scss — BEM, визуально согласовано с дашбордом */
-.login {
+.onboard {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
+  align-items: center;
 
-  /* кнопка "На главную" в шапке */
   &__home {
-    color: #374151; /* чуть темнее, чтобы не перетягивать внимание */
+    color: #374151;
     font-size: 0.95rem;
     text-decoration: none;
     padding: 0.25rem 0.5rem;
@@ -17,6 +15,7 @@
     transition:
       background 0.12s ease,
       color 0.12s ease;
+    margin-right: 0.5rem;
 
     &:hover {
       background: rgba(79, 70, 229, 0.06);
@@ -27,7 +26,7 @@
 
   &__card {
     width: 100%;
-    max-width: 500px;
+    max-width: 700px;
     background: #ffffff;
     border-radius: 1rem;
     overflow: hidden;
@@ -41,34 +40,20 @@
     padding: 25px 25px 15px 25px;
     border-bottom: 1px solid #f3f4f6;
 
-    .login__brand {
+    .onboard__brand {
       color: #4f46e5;
       font-weight: 700;
       font-size: 1.125rem;
     }
 
-    .login__hint {
+    .onboard__hint {
       color: #6b7280;
       font-size: 0.9rem;
     }
   }
 
   &__body {
-    padding: 15px 30px 30px 30px;
-  }
-
-  &__step {
-    display: none;
-
-    &--phone[aria-hidden='false'],
-    &--verify[aria-hidden='false'],
-    &--done[aria-hidden='false'] {
-      display: block;
-    }
-
-    & + & {
-      margin-top: 1rem;
-    }
+    padding: 30px;
   }
 
   &__title {
@@ -78,7 +63,7 @@
   }
 
   &__desc {
-    margin: 0 0 1rem 0;
+    margin: 0 0 2rem 0;
     color: #6b7280;
     font-size: 0.95rem;
   }
@@ -126,7 +111,7 @@
     margin-top: 1.75rem;
     align-items: center;
 
-    .login__btn {
+    .onboard__btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -210,16 +195,15 @@
   }
 }
 
-/* responsive */
 @media (max-width: 640px) {
-  .login__card {
+  .onboard__card {
     margin: 0 12px;
   }
-  .login__input {
+  .onboard__input {
     font-size: 0.95rem;
     padding: 0.6rem 0.9rem;
   }
-  .login__title {
+  .onboard__title {
     font-size: 1.125rem;
   }
 }

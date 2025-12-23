@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthFacade } from '../../../auth/auth.facade';
 
 @Component({
   selector: 'app-profile',
@@ -10,14 +10,13 @@ import { AuthService } from '../../../auth/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
-  private readonly authService = inject(AuthService);
-  // private readonly localStorageService = inject(LocalStorageService);
+  private readonly authFacade: AuthFacade = inject(AuthFacade);
 
   logout(): void {
-    this.authService.logout();
+    this.authFacade.logout();
   }
 
   delete(): void {
-    this.authService.delete();
+    this.authFacade.deleteMe();
   }
 }

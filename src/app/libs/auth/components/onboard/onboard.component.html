@@ -1,0 +1,52 @@
+<div class="onboard">
+  <div class="onboard__card">
+    <div class="onboard__head">
+      <div class="onboard__brand">Авторизация</div>
+      <div class="onboard__hint">Быстрая регистрация/авторизация по SMS</div>
+    </div>
+
+    <div class="onboard__body">
+      <section class="onboard__step onboard__step--phone" aria-hidden="false" data-step="phone">
+        <h2 class="onboard__title">Введите номера телефона</h2>
+        <p class="onboard__desc">Мы пришлём код в SMS. Никаких паролей.</p>
+
+        <label class="onboard__label">
+          <span class="onboard__label-text">Номер телефона</span>
+          <input
+            [formControl]="inputField"
+            class="onboard__input"
+            type="tel"
+            placeholder="+7 900 000-00-00"
+            data-hook="phone-input"
+          />
+          <small
+            *ngIf="inputField.invalid && inputField.touched"
+            class="onboard__error"
+            style="color: red"
+            role="alert"
+            aria-live="polite"
+          >
+            Пожалуйста, введите корректный номер телефона.
+          </small>
+        </label>
+
+        <div class="onboard__actions">
+          <button
+            class="onboard__btn onboard__btn--primary"
+            [disabled]="inputField.invalid"
+            (click)="onSubmit()"
+          >
+            Получить код
+          </button>
+          <button
+            class="onboard__btn onboard__btn--ghost"
+            type="button"
+            (click)="inputField.reset()"
+          >
+            Очистить
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

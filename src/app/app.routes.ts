@@ -64,14 +64,4 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./libs/auth/pages/auth/auth.component').then((c) => c.AuthComponent),
   },
-  {
-    path: 'login',
-    redirectTo: 'onboard',
-    pathMatch: 'full',
-  },
-  {
-    path: 'signup',
-    redirectTo: 'onboard',
-    pathMatch: 'full',
-  },
 ];

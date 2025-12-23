@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthFacade } from '../../auth.facade';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-onboard',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, NgIf],
-  templateUrl: './registr.component.html',
-  styleUrl: './registr.component.scss',
+  imports: [ReactiveFormsModule, NgIf],
+  templateUrl: './onboard.component.html',
+  styleUrl: './onboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent {
-  private readonly authService = inject(AuthService);
+export class onboardComponent {
+  private readonly authFacade = inject(AuthFacade);
 
   public inputField = new FormControl('', [
     Validators.required,
@@ -22,6 +21,6 @@ export class RegisterComponent {
 
   public onSubmit(): void {
     const phone = this.inputField.value;
-    this.authService.signup(phone!);
+    this.authFacade.sendPhone(phone!);
   }
 }

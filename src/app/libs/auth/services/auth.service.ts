@@ -1,281 +1,100 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, delay, map, tap } from 'rxjs';
-import { LocalStorageService } from '../../../shared/utils/local-storage.service';
-import { StorageKey } from '../../../shared/enums/storage-key.enum';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-
-export interface OtpState {
-  id: number | string | null;
-  state: 'idle' | 'sending' | 'waitingCode' | 'verifying' | 'authenticated' | 'blocked';
-  phone: string | null;
-  attempts: number;
-  sendCount: number;
-  resendLeft: number;
-  sending: boolean;
-  verifying: boolean;
-  error: string | null;
-  lastSentAt: number | null;
-  expiresAt: number | null;
-  history: { type: string; ts: number }[];
-}
+import { DestroyRef, inject, Injectable } from '@angular/core';
+import { AuthApiService } from './auth-api.service';
+import { BehaviorSubject, catchError, filter, map, Observable, take, tap, throwError } from 'rxjs';
+import {
+  RefreshTokenResponse,
+  SendOtpResponse,
+  VerifyOtpResponse,
+} from '../interfaces/auth-api.interface';
+import { AuthState } from '../state/auth.state';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private min = 1000;
-  private max = 999999;
+  private readonly authApiService: AuthApiService = inject(AuthApiService);
+  private readonly authState: AuthState = inject(AuthState);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-  private readonly http: HttpClient = inject(HttpClient);
-  private readonly localStorage: LocalStorageService = inject(LocalStorageService);
-  private router: Router = inject(Router);
+  private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-  private isLoggedIn$$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private telSaved$$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  private codeSaved$$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  private otpState$$ = new BehaviorSubject<OtpState>({
-    id: null,
-    state: 'idle', // 'idle' | 'sending' | 'waitingCode' | 'verifying' | 'authenticated' | 'blocked'
-    phone: null, // номер (маскировать при хранении/логах)
-    attempts: 0, // попытки ввода кода
-    sendCount: 0, // сколько раз просили OTP (rate-limit)
-    resendLeft: 0, // таймер в секундах для ресенда (фронт)
-    sending: false, // true пока идёт запрос send-otp
-    verifying: false, // true пока идёт verify-otp
-    error: null, // текст последней ошибки для показа
-    lastSentAt: null, // timestamp когда отправляли OTP
-    expiresAt: null, // timestamp когда OTP истекает (опционально)
-    history: [], // лог событий [{type:'send',ts}, {type:'verify_fail',ts}, ...]
-  });
+  private isRefreshing = false;
 
-  public otpState$ = this.otpState$$.asObservable();
-  public telSaved$ = this.telSaved$$.asObservable();
-
-  randomInt(): number {
-    return Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;
+  sendPhone(phone: string): Observable<SendOtpResponse> {
+    return this.authApiService.sendPhone(phone).pipe(
+      tap((response: SendOtpResponse) =>
+        this.authState.sendSuccess(response.otpId, response.expiresAt, response.message),
+      ),
+      takeUntilDestroyed(this.destroyRef),
+    );
   }
 
-  // send(phone: string): void {
-  //   this.updateOtpState({
-  //     ...this.otpState$$.value,
-  //     state: 'sending',
-  //     sending: true,
-  //     phone,
-  //     lastSentAt: Date.now(),
-  //   });
+  verifyOtp(code: string): Observable<VerifyOtpResponse> {
+    const phone = this.authState.otp?.phone;
+    const otpId = this.authState.otp?.otpId;
 
-  //   this.sendNumber();
-  // }
+    return this.authApiService.verifyOtp(phone!, code, otpId!).pipe(
+      tap((response: VerifyOtpResponse) => {
+        return this.authState.verifySuccess(response.user, response.accessToken);
+      }),
+      takeUntilDestroyed(this.destroyRef),
+    );
+  }
 
-  async verify(code: number): Promise<void> {
-    this.updateOtpState({
-      ...this.otpState$$.value,
-      state: 'verifying',
-      verifying: true,
-    });
+  resendOtp(): Observable<{ expiresAt: number }> {
+    const otpId = this.authState.otp?.otpId;
 
-    try {
-      setTimeout(() => {
-        if (code === this.codeSaved$$.value) {
-          if (!this.isLoggedIn$$.value) {
-            console.log('Registering new user with phone:', this.telSaved$$.value);
-            this.http
-              .post('/users', { phone: this.telSaved$$.value })
-              .pipe(
-                delay(2000),
-                tap(() => {
-                  this.http
-                    .get('/users', { params: { phone: this.telSaved$$.value } })
-                    .pipe(
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      map((user: any): any => {
-                        return user[0] ? user[0] : {};
-                      }),
-                    )
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    .subscribe((user: any): any => {
-                      console.log('User = ', user);
-                      this.updateOtpState({
-                        ...this.otpState$$.value,
-                        id: user.id,
-                      });
-                    });
-                }),
-              )
-              .subscribe();
-          }
+    return this.authApiService.resendOtp(otpId!).pipe(
+      tap((response: { expiresAt: number }) => {
+        return this.authState.sendSuccess(otpId!, response.expiresAt);
+      }),
+      takeUntilDestroyed(this.destroyRef),
+    );
+  }
 
-          this.updateOtpState({
-            ...this.otpState$$.value,
-            state: 'authenticated',
-            verifying: false,
-            history: [...this.otpState$$.value.history, { type: 'verify', ts: Date.now() }],
-          });
-
-          this.router.navigate(['/auth/generate-dinamic-qr']);
-        } else {
-          this.updateOtpState({
-            ...this.otpState$$.value,
-            state: 'waitingCode',
-            verifying: false,
-            attempts: this.otpState$$.value.attempts + 1,
-            history: [...this.otpState$$.value.history, { type: 'verify_fail', ts: Date.now() }],
-          });
-
-          alert('Неверный код. Попробуйте ещe раз.');
-        }
-      }, 2000);
-    } catch (error) {
-      alert('Ошибка при верификации.');
-      console.error('Вот - ', error);
-      this.updateOtpState({
-        ...this.otpState$$.value,
-        state: 'sending',
-        verifying: false,
-      });
+  refreshToken(): Observable<string> {
+    // Явно указываем, что возвращаем строку
+    if (this.isRefreshing) {
+      return this.refreshTokenSubject.pipe(
+        filter((token): token is string => token !== null), // Type guard
+        take(1),
+      );
     }
+
+    this.isRefreshing = true;
+    this.refreshTokenSubject.next(null); // Очищаем старый флаг
+
+    return this.authApiService.refreshToken().pipe(
+      tap((response: RefreshTokenResponse) => {
+        // Вызываем методы состояния
+        this.authState.refreshSuccess(response.accessToken, response.user);
+        this.isRefreshing = false;
+        this.refreshTokenSubject.next(response.accessToken);
+      }),
+      map((response) => response.accessToken), // Превращаем Response в строку
+      catchError((err) => {
+        this.isRefreshing = false;
+        this.refreshTokenSubject.next(null);
+        return throwError(() => err);
+      }),
+      // takeUntilDestroyed здесь не нужен, так как мы используем take(1) или завершаем запрос
+    );
   }
 
-  signup(phone: string): void {
-    this.updateOtpState({
-      ...this.otpState$$.value,
-      state: 'sending',
-      sending: true,
-      phone,
-      lastSentAt: Date.now(),
-    });
+  logout(): Observable<{ message: string }> {
+    const accessToken = this.authState.accessToken;
 
-    try {
-      this.http
-        .get('/users', { params: { phone: phone } })
-        .pipe(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          map((user: any): any => {
-            return user[0] ? user[0] : {};
-          }),
-        )
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .subscribe((user: any): any => {
-          this.isLoggedIn$$.next(user?.phone && user.phone === phone);
-
-          if (this.isLoggedIn$$.value) {
-            setTimeout(() => {
-              return alert('Такой пользователь уже существует.');
-            }, 2000);
-          } else {
-            this.telSaved$$.next(phone);
-            this.sendCode();
-          }
-        });
-    } catch (error) {
-      alert('Ошибка при регистрации.');
-      console.error('Вот - ', error);
-      this.updateOtpState({
-        ...this.otpState$$.value,
-        state: 'idle',
-        verifying: false,
-      });
-      this.router.navigate(['/signup']);
-    }
+    return this.authApiService.logout(accessToken!).pipe(
+      tap(() => this.authState.logout()),
+      takeUntilDestroyed(this.destroyRef),
+    );
   }
 
-  login(phone: string): void {
-    this.updateOtpState({
-      ...this.otpState$$.value,
-      state: 'sending',
-      sending: true,
-      phone,
-      lastSentAt: Date.now(),
-    });
-
-    try {
-      this.http
-        .get('/users', { params: { phone: phone } })
-        .pipe(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          map((user: any): any => {
-            return user[0] ? user[0] : {};
-          }),
-        )
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .subscribe((user: any): any => {
-          this.isLoggedIn$$.next(user?.phone && user.phone === phone);
-
-          if (this.isLoggedIn$$.value) {
-            this.sendCode();
-          } else {
-            alert('Пользователь не найден.');
-            this.updateOtpState({
-              ...this.otpState$$.value,
-              state: 'idle',
-              verifying: false,
-            });
-            this.router.navigate(['/login']);
-          }
-        });
-    } catch (error) {
-      alert('Ошибка при входе.');
-      console.error('Вот - ', error);
-      this.updateOtpState({
-        ...this.otpState$$.value,
-        state: 'idle',
-        verifying: false,
-      });
-      this.router.navigate(['/login']);
-    }
-  }
-
-  delete(): void {
-    const userId = this.otpState$$.value.id;
-    console.log('Deleting user with ID:', userId);
-    this.http
-      .delete<void>(`/users/${userId}`)
-      .pipe(
-        tap(() => {
-          this.resetOtpState();
-          this.router.navigate(['/signup']);
-        }),
-      )
-      .subscribe();
-  }
-
-  sendCode(): void {
-    setTimeout(() => {
-      this.updateOtpState({
-        ...this.otpState$$.value,
-        state: 'waitingCode',
-        sending: false,
-        sendCount: this.otpState$$.value.sendCount + 1,
-        history: [...this.otpState$$.value.history, { type: 'send', ts: Date.now() }],
-      });
-
-      const code = this.randomInt();
-
-      this.codeSaved$$.next(code);
-
-      alert(`Ваш код подтверждения: ${code}`);
-    }, 2000);
-  }
-
-  resetOtpState(): void {
-    this.updateOtpState({
-      ...this.otpState$$.value,
-      id: null,
-      state: 'idle',
-      phone: null,
-      attempts: 0,
-      sendCount: 0,
-    });
-  }
-
-  updateOtpState(otpState: OtpState): void {
-    this.localStorage.set(StorageKey.OTP_STATE, otpState);
-    this.otpState$$.next(otpState);
-  }
-
-  logout(): void {
-    this.resetOtpState();
-    this.router.navigate(['/login']);
+  deleteMe(): Observable<void> {
+    return this.authApiService.deleteMe().pipe(
+      tap(() => this.authState.delete()),
+      takeUntilDestroyed(this.destroyRef),
+    );
   }
 }

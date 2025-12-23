@@ -2,14 +2,18 @@
   <div class="topbar__inner container">
     <div class="topbar__logo" routerLink="/auth/generate-dinamic-qr">
       <div class="topbar__logo-img-wrapper">
-        <img src="/assets/prizma-logo3.png" alt="QR logo" class="topbar__logo-img" />
+        <img src="/assets/logo_prizma.png" alt="QR logo" class="topbar__logo-img" />
       </div>
     </div>
 
     <div class="topbar__spacer" aria-hidden="true"></div>
 
-    <nav class="topbar__auth auth-links" aria-label="auth links" *ngIf="otpState$ | async as otp">
-      <ng-container *ngIf="otp.state === 'authenticated'; else guestLinks">
+    <nav
+      class="topbar__auth auth-links"
+      aria-label="auth links"
+      *ngIf="authStatus$ | async as status"
+    >
+      <ng-container *ngIf="status === 'authenticated'; else guestLinks">
         <button class="auth-links__btn--profile" type="button" routerLink="/auth/profile">
           <a class="auth-links__link">Профиль</a>
           <img class="auth-links__profile-img" src="/assets/profileIcon.png" alt="profile icon" />
@@ -18,20 +22,12 @@
 
       <ng-template #guestLinks>
         <button
-          class="auth-links__link"
-          routerLink="/login"
-          [queryParams]="{ mode: 'login' }"
+          class="auth-links__btn auth-links__btn--onboard"
+          routerLink="/onboard"
           type="button"
+          (click)="goToSignup()"
         >
-          Войти
-        </button>
-        <button
-          class="auth-links__btn auth-links__btn--register"
-          routerLink="/signup"
-          [queryParams]="{ mode: 'signup' }"
-          type="button"
-        >
-          Зарегистрироваться
+          Авторизиризоваться
         </button>
       </ng-template>
     </nav>

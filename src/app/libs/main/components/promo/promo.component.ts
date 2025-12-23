@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -9,4 +9,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './promo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PromoComponent {}
+export class PromoComponent {
+  @Output() signup = new EventEmitter();
+
+  goToSignup(): void {
+    this.signup.emit();
+  }
+}
